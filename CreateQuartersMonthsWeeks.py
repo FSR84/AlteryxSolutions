@@ -39,16 +39,19 @@ QuarterStart = FromYearQuarter[-1:]
 DateStart = date(int(YearStart), int(QuarterStart)*3-2, 1)
 DateEnd = date(date.today().year, date.today().month, eomonth(date.today()).day)
 Output = []
-
+OutputWeek = ''
+OutputMonth = ''
 
 for dt in daterange(DateStart, DateEnd):
 
-    OutputWeek = week_from_date(dt)
-    OutputMonth = f"{dt.year}-{('0' if dt.month < 10 else '')}{dt.month}"
-    OutputQuarter = f"{dt.year}-Q{dt.month//4+1}"
-    Output.append([OutputQuarter, OutputMonth, OutputWeek])
+    if OutputWeek != week_from_date(dt) or OutputMonth != f"{dt.year}-{('0' if dt.month < 10 else '')}{dt.month}":
+        
+        OutputWeek = week_from_date(dt)
+        OutputMonth = f"{dt.year}-{('0' if dt.month < 10 else '')}{dt.month}"
+        OutputQuarter = f"{dt.year}-Q{dt.month//4+1}"
+        Output.append([OutputQuarter, OutputMonth, OutputWeek])
     
 
-OutputDF = pd.DataFrame(Output, columns = ['Quarter', 'Month', 'Week']).drop_duplicates()
+OutputDF = pd.DataFrame(Output, columns = ['Quarter', 'Month', 'Week'])
 
 print(OutputDF)
