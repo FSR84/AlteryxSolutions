@@ -1,6 +1,5 @@
 from datetime import date, timedelta
 import pandas as pd
-import calendar
 
 
 # input your starting quarter
@@ -21,13 +20,6 @@ def week_from_date(date_object):
     week = ((date_ordinal - week1_start_ordinal(year)) // 7) + 1
     return f"{year}-W{week}"
 
-def eomonth(date_object):
-    year = date_object.year
-    month = date_object.month
-    days_in_month = calendar.monthrange(year, month)[1]
-    eomonth = date(year, month, days_in_month)
-    return eomonth
-
 def daterange(date1, date2):
     for n in range(int ((date2 - date1).days)+1):
         yield date1 + timedelta(n)
@@ -37,10 +29,11 @@ def daterange(date1, date2):
 YearStart = FromYearQuarter[:4]
 QuarterStart = FromYearQuarter[-1:]
 DateStart = date(int(YearStart), int(QuarterStart)*3-2, 1)
-DateEnd = date(date.today().year, date.today().month, eomonth(date.today()).day)
+DateEnd = date.today()
 Output = []
 OutputWeek = ''
 OutputMonth = ''
+
 
 for dt in daterange(DateStart, DateEnd):
 
@@ -52,6 +45,7 @@ for dt in daterange(DateStart, DateEnd):
         Output.append([OutputQuarter, OutputMonth, OutputWeek])
     
 
+    
 OutputDF = pd.DataFrame(Output, columns = ['Quarter', 'Month', 'Week'])
 
 print(OutputDF)
