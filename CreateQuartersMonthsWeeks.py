@@ -17,8 +17,8 @@ def week1_start_ordinal(year):
 def week_from_date(date_object):
     date_ordinal = date_object.toordinal()
     year = date_object.year
-    week = ((date_ordinal - week1_start_ordinal(year)) // 7) + 1
-    return f"{year}-W{week}"
+    week = ((date_ordinal - week1_start_ordinal(year)) // 7) # add +1 if you want your list to start with W01 instead of W00 for each year
+    return f"{year}-W{('0' if week < 10 else '')}{week}"
 
 def daterange(date1, date2):
     for n in range(int ((date2 - date1).days)+1):
@@ -45,7 +45,7 @@ for dt in daterange(DateStart, DateEnd):
         Output.append([OutputQuarter, OutputMonth, OutputWeek])
     
 
-    
+
 OutputDF = pd.DataFrame(Output, columns = ['Quarter', 'Month', 'Week'])
 
 print(OutputDF)
