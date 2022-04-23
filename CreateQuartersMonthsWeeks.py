@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 import pandas as pd
+import math
 
 
 # input your starting quarter
@@ -41,7 +42,7 @@ for dt in daterange(DateStart, DateEnd):
         
         OutputWeek = week_from_date(dt)
         OutputMonth = f"{dt.year}-{('0' if dt.month < 10 else '')}{dt.month}"
-        OutputQuarter = f"{dt.year}-Q{dt.month//4+1}"
+        OutputQuarter = f"{dt.year}-Q{math.ceil(dt.month/3)}"
         Output.append([OutputQuarter, OutputMonth, OutputWeek])
     
 
